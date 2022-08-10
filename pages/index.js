@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import axios from 'axios'
-import { ToastContainer, toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css";  
+import { FaThumbsUp } from 'react-icons/fa'
+import { ToastContainer, toast } from 'react-toastify';           // Bibliotheque pour afficher les messages d'erreurs de _SESSION
+import 'react-toastify/dist/ReactToastify.css';
 import SelectReport from '@/components/SelectReport.jsx';
 import Layout from '@/components/Layout.jsx'
 import Header from '@/components/Header.jsx'
@@ -31,6 +32,9 @@ export default function HomePage({ allReports, last_id }) {
     const reports = await res.json()
     if (res.ok) {
       let report = reports[0]
+      const date = report.date.split('T')[0] || null;
+      const signature_date = report.signature_date.split('T')[0] || null;
+      report = {...report, date: date, signature_date: signature_date}
       setReport(report)
       setActive_id(report.id_report)
     } else {
@@ -46,6 +50,7 @@ export default function HomePage({ allReports, last_id }) {
     setReport(modifiedReport)
   }
 
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     const partialReport = {...report, [ name ]: value } 
@@ -56,10 +61,9 @@ export default function HomePage({ allReports, last_id }) {
   }
 
 
-  // Soumission du formulaire pour ajouter un rapport
+  // Ajouter un rapport
   const handleSubmitAddReport = async (e) => {
     e.preventDefault()
-    toast.success('Excellent, thanks')
     setLoading(true)
     const res = await fetch('http://localhost:3000/api/reports/add', {
       method: 'POST',
@@ -74,7 +78,7 @@ export default function HomePage({ allReports, last_id }) {
       const {data: lastest_id} = await axios.get(`http://localhost:3000/api/reports/last_id/`)  
       setActive_id(lastest_id + 1)
       setReports(allReports)
-      alert('Excellent, thanks')
+      toast.success(`Excellent <FaThumbsUp style={{ fontSize: "2rem", marginLeft: "4rem", color: "#008B8B"}} />`)
       setReport({})
     } else {
       toast.error(data.message)
@@ -83,7 +87,7 @@ export default function HomePage({ allReports, last_id }) {
   }
 
 
-  // Soumission du formulaire modifier un rapport
+  // Modifier un rapport
   const handleSubmitModifyReport = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -98,7 +102,7 @@ export default function HomePage({ allReports, last_id }) {
     if (res.ok) {
       const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
       setReports(allReports)
-      toast.success('Excellent, thanks')
+      toast.success(<FaThumbsUp style={{ fontSize: "2rem", marginLeft: "4rem", color: "#008B8B"}} />)
     } else {
       toast.error(data.message)
     }
@@ -106,7 +110,7 @@ export default function HomePage({ allReports, last_id }) {
   }
 
 
-  // Supprime un report
+  // Supprime un rapport
   const handleDeleteReport = async() => {
     setReport({})
     setLoading(true)
@@ -121,7 +125,7 @@ export default function HomePage({ allReports, last_id }) {
     if (res.ok) {
       const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
       setReports(allReports)
-      toast.success('Excellent, thanks')
+      toast.success(<FaThumbsUp style={{ fontSize: "2rem", marginLeft: "4rem", color: "#008B8B"}} />)
     } else {
       toast.error(data.message)
     }
@@ -131,6 +135,7 @@ export default function HomePage({ allReports, last_id }) {
   return (
     <Layout title='GES: FRAIS ADDITIONNELS DE MANUTENTION / ADDITIONAL HANDLING CHARGES'>
       <div className={styles.container}>
+      <ToastContainer />
         <form id="reportForm" onSubmit={handleSubmitAddReport}>
 
 

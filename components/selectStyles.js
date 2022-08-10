@@ -2,40 +2,38 @@
   export const divStyles = {
     selectContainer: {
       display: "inline-block",
-      minWidth: '250px',
-      maxWidth: '250px',
+      minWidth: '380px',
+      maxWidth: '380px',
     },
   }
 
   // styles for the select
   export const customStyles = {
-    control: (base, state) => ({                                    // Boite Sélect
+    control: (base, state) => ({                                    // Contour & bg de la boite Sélect
       ...base,
-      border: "none",
       boxShadow: "none",
+      border: "none",
+      border: "1px solid var(--bs-ges-primary)",
       backgroundColor: "#fff",
-      border: "1px solid var(--primary)",
       "&:hover": {
-        backgroundColor: "var(--primary)",
+        backgroundColor: "var(--bs-ges-success)",
       }
     }),
-    placeholder: (base) => ({                                       // Input ne contenant pas d'option
+    placeholder: (base) => ({                                       // texte de la boite select, sans option selectionne
       ...base,
-      color: "black",
+      color: "red",
       fontSize: "1.1rem",
       fontWeight: "normal",
       fontFamily: "Arial",
-
     }),
-    singleValue: (provided, state) => ({                            // Input contenant une Option
+    singleValue: (provided, state) => ({                            // texte de la boite select, avec une option selectionnee
       ...provided,
-      color: "black",
+      color: "var(--bs-ges-primary)",
       padding: 0,
       margin: 0,
       fontSize: "1.1rem",
       fontWeight: "normal",
       fontFamily: "Arial",      
-
     }),
     option: (provided, state) => ({                                 // Options
       ...provided,
@@ -45,10 +43,10 @@
       fontFamily: "Arial",
       padding: 10,
       borderBottom: "1px solid #ccc",
-      backgroundColor: state.isSelected ? "orange" : "white",
+      backgroundColor: state.isSelected ? "var(--bs-ges-success)" : "white",
       "&:hover": {
         color: "white",
-        backgroundColor: "darkCyan"
+        backgroundColor: "var(--bs-ges-primary)"
       }
     }),
     menu: (provided, state) => ({                                   // Options container
