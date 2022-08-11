@@ -8,8 +8,20 @@
   white-space: nowrap;
 }
 
+/* 3 colonnes */
+.grid_3_col { 
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 1rem;
+}
 
-.container .grid_3_col input[type="text"] {
+/* l'élément s'étend sur 2 colonnes */
+.span_2_col { 
+  grid-column: span 2;
+}
+
+.container .grid_3_col input {
   font-size: 1.2rem;
   width: 100%;
   padding-left: 0.5rem;
@@ -17,21 +29,12 @@
   border-bottom: 1px solid black;
   margin-left: 0.5rem;
 }
-.container .grid_3_col input[type="date"] {
-  font-size: 1.2rem;
-  padding-left: 0.5rem;
-  width: 100%;
+.container .grid_3_col input:focus {
+  outline: none !important;
   border: none;
   border-bottom: 1px solid black;
-  margin-left: 0.5rem;
-}
-.container .grid_3_col input[type="time"] {
-  font-size: 1.2rem;
-  padding-left: 0.5rem;
-  width: 100%;
-  border: none;
-  margin-left: 1rem;
-  border-bottom: 1px solid black;
+  box-shadow: 0 0 0 var(--bs-ges-success);
+  background-color: var(--bs-ges-success);
 }
 .container input[type="checkbox"] {
   display: inline-box;
@@ -43,19 +46,7 @@
   margin-left: 0.5rem;
 }
 
-/* 3 colonnes */
-.grid_3_col { 
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-column-gap: 1rem;
-}
 
-
-/* l'élément s'étend sur 2 colonnes */
-.span_2_col { 
-  grid-column: span 2;
-}
 
 .textCenter {
   text-align: center;
@@ -127,11 +118,11 @@
 .grid_4_col input[type="text"]:focus {
   outline: none !important;
   border: none;
-  box-shadow: 0 0 0 var(--bs-light);
-  background-color: var(--bs-light);
+  box-shadow: 0 0 0 var(--bs-ges-success);
+  background-color: var(--bs-ges-success);
 }
 .grid_4_col div:focus-within {
-  background-color: var(--bs-light);
+  background-color: var(--bs-ges-success);
 }
 
 .container button {
