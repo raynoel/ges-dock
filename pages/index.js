@@ -26,19 +26,19 @@ export default function HomePage({ allReports, last_id }) {
       setActive_id(last_id + 1)
       return 
     }
-    const res = await fetch(`http://localhost:3000/api/reports/${value}`)     
-    const reports = await res.json()
-    if (res.ok) {
-      let report = reports[0]
-      const date = report.date.split('T')[0] || null;
-      const signature_date = report.signature_date.split('T')[0] || null;
-      report = {...report, date: date, signature_date: signature_date}
-      setReport(report)
-      setActive_id(report.id_report)
-    } else {
-      setReport({}) 
-      setActive_id(last_id + 1)
-    }
+    // const res = await fetch(`http://localhost:3000/api/reports/${value}`)     
+    // const reports = await res.json()
+    // if (res.ok) {
+    //   let report = reports[0]
+    //   const date = report.date.split('T')[0] || null;
+    //   const signature_date = report.signature_date.split('T')[0] || null;
+    //   report = {...report, date: date, signature_date: signature_date}
+    //   setReport(report)
+    //   setActive_id(report.id_report)
+    // } else {
+    //   setReport({}) 
+    //   setActive_id(last_id + 1)
+    // }
   }
 
 
@@ -64,72 +64,72 @@ export default function HomePage({ allReports, last_id }) {
   // Ajouter un rapport
   const handleSubmitAddReport = async (e) => {
     e.preventDefault()
-    setLoading(true)
-    const res = await fetch('http://localhost:3000/api/reports/add', {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json'},
-      body: JSON.stringify( report )
-    })
+  //   setLoading(true)
+  //   const res = await fetch('http://localhost:3000/api/reports/add', {
+  //     method: 'POST',
+  //     headers: { 'Content-type': 'application/json'},
+  //     body: JSON.stringify( report )
+  //   })
 
-    const data = await res.json()
+  //   const data = await res.json()
 
-    if (res.ok) {
-      const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
-      const {data: lastest_id} = await axios.get(`http://localhost:3000/api/reports/last_id/`)  
-      setActive_id(lastest_id + 1)
-      setReports(allReports)
-      toast.success('Excellent !')
-      setReport({})
-    } else {
-      toast.error(data.message)
-    }
-    setLoading(false)
+  //   if (res.ok) {
+  //     const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
+  //     const {data: lastest_id} = await axios.get(`http://localhost:3000/api/reports/last_id/`)  
+  //     setActive_id(lastest_id + 1)
+  //     setReports(allReports)
+  //     toast.success('Excellent !')
+  //     setReport({})
+  //   } else {
+  //     toast.error(data.message)
+  //   }
+  //   setLoading(false)
   }
 
 
   // Modifier un rapport
   const handleSubmitModifyReport = async (e) => {
     e.preventDefault()
-    setLoading(true)
-    const res = await fetch(`http://localhost:3000/api/reports/edit/${report.id_report}`, {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json'},
-      body: JSON.stringify( report )
-    })
+  //   setLoading(true)
+  //   const res = await fetch(`http://localhost:3000/api/reports/edit/${report.id_report}`, {
+  //     method: 'POST',
+  //     headers: { 'Content-type': 'application/json'},
+  //     body: JSON.stringify( report )
+  //   })
 
-    const data = await res.json()
+  //   const data = await res.json()
 
-    if (res.ok) {
-      const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
-      setReports(allReports)
-      toast.success('Excellent !')
-    } else {
-      toast.error(data.message)
-    }
-    setLoading(false)
+  //   if (res.ok) {
+  //     const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
+  //     setReports(allReports)
+  //     toast.success('Excellent !')
+  //   } else {
+  //     toast.error(data.message)
+  //   }
+  //   setLoading(false)
   }
 
 
   // Supprime un rapport
   const handleDeleteReport = async() => {
-    setReport({})
-    setLoading(true)
-    const res = await fetch(`http://localhost:3000/api/reports/${report.id_report}`, {
-      method: 'DELETE',
-      headers: { 'Content-type': 'application/json'},
-      body: JSON.stringify( report.id_report )
-    })
-
-    const data = await res.json()
-
-    if (res.ok) {
-      const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
-      setReports(allReports)
-      toast.success("Excellent !")
-    } else {
-      toast.error(data.message)
-    }
-    setLoading(false)
+    //   setLoading(true)
+    //   const res = await fetch(`http://localhost:3000/api/reports/${report.id_report}`, {
+      //     method: 'DELETE',
+      //     headers: { 'Content-type': 'application/json'},
+      //     body: JSON.stringify( report.id_report )
+      //   })
+      
+      //   const data = await res.json()
+      
+      //   if (res.ok) {
+  //     setReport({})
+  //     const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
+  //     setReports(allReports)
+  //     toast.success("Excellent !")
+  //   } else {
+  //     toast.error(data.message)
+  //   }
+  //   setLoading(false)
   }
 
   return (
