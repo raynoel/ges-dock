@@ -218,9 +218,9 @@ export default function HomePage({ allReports, last_id }) {
 // Obtient la liste des reports 
 export async function getServerSideProps(context) {   
   // const {data: allReports} = await axios.get(`http://localhost:3000/api/reports/`)  
-  const {data: last_id} = await axios.get(`http://localhost:3000/api/reports/last_id/`) 
+  // const {data: last_id} = await axios.get(`http://localhost:3000/api/reports/last_id/`) 
   const allReports = [{id_report: 2, exhibitor_name: 'Gilead' }, {id_report: 3, exhibitor_name: 'Abbott'}] 
-  // const last_id = 78
+  const last_id = 78
   return {
     props: { 
       allReports: allReports,
