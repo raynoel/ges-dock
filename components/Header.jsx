@@ -2,7 +2,18 @@ import styles from '@/styles/Home.module.css'
 
 
 
-export default function Header({ bill_of_lading_missing, proper_identification_missing, trailer_no, handleOnChange, handleCheck  }) {
+export default function Header({ 
+  bill_of_lading_missing, 
+  proper_identification_missing, 
+  trailer_no, 
+  nose_check,
+  center_check,
+  tail_check,
+  handleOnChange, 
+  handleCheck  
+}) {
+  
+  
   return (
     <div className={styles.grid_3_col}>
 
@@ -12,14 +23,14 @@ export default function Header({ bill_of_lading_missing, proper_identification_m
         ADDITIONAL HANDLING CHARGES<br /><br />
       </div>
       <div className={styles.flexStart}>
-        <input type="checkbox" id='bill_of_lading_missing' name="bill_of_lading_missing" value={bill_of_lading_missing} onChange={handleCheck} />
+        <input type="checkbox" id='bill_of_lading_missing' name="bill_of_lading_missing" value={bill_of_lading_missing || false} checked={bill_of_lading_missing || false} onChange={handleCheck} />
         <label htmlFor='bill_of_lading_missing'>
           Marchandise reçues sans connaissement adéquat.<br />
           Shipment received without proper bill of lading.
         </label>
       </div>
       <div className={styles.flexStart}>
-        <input type="checkbox" id="proper_identification_missing" name="proper_identification_missing" value={proper_identification_missing} onChange={handleCheck}/>
+        <input type="checkbox" id="proper_identification_missing" name="proper_identification_missing" value={proper_identification_missing || false} checked={proper_identification_missing || false} onChange={handleCheck}/>
         <label htmlFor='proper_identification_missing'>
           Marchandise reçues sans identification adéquate.<br />
           Shipment received without proper identification.
@@ -48,17 +59,17 @@ export default function Header({ bill_of_lading_missing, proper_identification_m
 
       <div className={styles.grid_3_col} style={{ margin: 0}}>
         <div className={styles.flexStart}>
-          <input type="checkbox" id='nose_check' name='nose_check' onChange={handleCheck} />
+          <input type="checkbox" id='nose_check' name='nose_check' value={nose_check || false} checked={nose_check || false} onChange={handleCheck} />
           <label htmlFor="nose_check">Devant <br />Nose</label>
         </div>
 
         <div className={styles.flexStart}>
-          <input type="checkbox" id='center_check' name='center_check' onChange={handleCheck} />
+          <input type="checkbox" id='center_check' name='center_check' value={center_check || false} checked={center_check || false} onChange={handleCheck} />
           <label htmlFor='center_check'>Centre <br />Center</label>
         </div>
 
         <div className={styles.flexStart}>
-          <input type="checkbox" id='tail_check' name='tail_check' onChange={handleCheck} />
+          <input type="checkbox" id='tail_check' name='tail_check' value={tail_check || false} checked={tail_check || false} onChange={handleCheck} />
           <label htmlFor='tail_check'>Arriere <br />Tail</label>
         </div>
       </div>

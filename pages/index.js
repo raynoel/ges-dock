@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import axios from 'axios'
-import { FaThumbsUp } from 'react-icons/fa'
 import { ToastContainer, toast } from 'react-toastify';           // Bibliotheque pour afficher les messages d'erreurs de _SESSION
 import 'react-toastify/dist/ReactToastify.css';
 import SelectReport from '@/components/SelectReport.jsx';
@@ -22,7 +21,6 @@ export default function HomePage({ allReports, last_id }) {
 
   // Sélectionne un report de la DB
   const handleSelectReport = async( value ) => {
-    console.log(value)
     if (typeof(value) === "undefined") {                                // case x clear()
       setReport({}); 
       setActive_id(last_id + 1)
@@ -46,8 +44,10 @@ export default function HomePage({ allReports, last_id }) {
 
   const handleCheck = (e) => {
     const { name, checked } = e.target;
+    console.log(name, checked)
     const modifiedReport = {...report, [ name ]: checked } 
     setReport(modifiedReport)
+    console.log(modifiedReport)
   }
 
 
@@ -78,7 +78,7 @@ export default function HomePage({ allReports, last_id }) {
       const {data: lastest_id} = await axios.get(`http://localhost:3000/api/reports/last_id/`)  
       setActive_id(lastest_id + 1)
       setReports(allReports)
-      toast.success(`Excellent <FaThumbsUp style={{ fontSize: "2rem", marginLeft: "4rem", color: "#008B8B"}} />`)
+      toast.success('Excellent !')
       setReport({})
     } else {
       toast.error(data.message)
@@ -102,7 +102,7 @@ export default function HomePage({ allReports, last_id }) {
     if (res.ok) {
       const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
       setReports(allReports)
-      toast.success(<FaThumbsUp style={{ fontSize: "2rem", marginLeft: "4rem", color: "#008B8B"}} />)
+      toast.success('Excellent !')
     } else {
       toast.error(data.message)
     }
@@ -125,7 +125,7 @@ export default function HomePage({ allReports, last_id }) {
     if (res.ok) {
       const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
       setReports(allReports)
-      toast.success(<FaThumbsUp style={{ fontSize: "2rem", marginLeft: "4rem", color: "#008B8B"}} />)
+      toast.success("Excellent !")
     } else {
       toast.error(data.message)
     }
@@ -134,8 +134,8 @@ export default function HomePage({ allReports, last_id }) {
 
   return (
     <Layout title='GES: FRAIS ADDITIONNELS DE MANUTENTION / ADDITIONAL HANDLING CHARGES'>
-      <div className={styles.container}>
       <ToastContainer />
+      <div className={styles.container}>
         <form id="reportForm" onSubmit={handleSubmitAddReport}>
 
 
@@ -146,19 +146,23 @@ export default function HomePage({ allReports, last_id }) {
             </div>
             <div>
               {  report?.id_report && <button type="submit" disabled={loading} form="reportForm" onClick={handleSubmitModifyReport}>MODIFY</button>}
-              { !report?.id_report && <button type='submit' disabled={loading} form="reportForm">ADD REPORT</button>}
+              { !report?.id_report && <button type='submit' disabled={loading} form="reportForm">ADD</button>}
               <button type='submit' disabled={loading} onClick={handleDeleteReport} form="reportForm">DELETE</button>
             </div>
           </div>
 
 
           <Header 
-            bill_of_lading_missing={report.bill_of_lading_missing || false} 
-            proper_identification_missing={report.proper_identification_missing || false} 
-            trailer_no={report.trailer_no || ''} 
+            bill_of_lading_missing={report.bill_of_lading_missing } 
+            proper_identification_missing={report.proper_identification_missing} 
+            trailer_no={report.trailer_no} 
+            nose_check={report.nose_check}
+            center_check={report.center_check}
+            tail_check={report.tail_check}
             handleOnChange={handleOnChange} 
             handleCheck={handleCheck} 
           />
+          
           <Banner 
             id_report={active_id} 
           />
@@ -167,6 +171,7 @@ export default function HomePage({ allReports, last_id }) {
             report={report}
             handleOnChange={handleOnChange} 
           />
+
           <div >
             <br />
             <br />

@@ -92,7 +92,7 @@ export default function LoadInfo({
       <div className={styles.item}>Expédition repesée<br />Shipment reweighed</div>
       <div></div>
       <div></div>
-      <div>&nbsp;Poids corrigé<br />&nbsp;Corrected weight&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="corrected_wh" value={corrected_wh} onChange={handleOnChange} /></div>
+      <div>&nbsp;Poids corrigé<br />&nbsp;Corrected weight&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="corrected_wh" value={corrected_wh || ''} onChange={handleOnChange} /></div>
 
 
     </div>
