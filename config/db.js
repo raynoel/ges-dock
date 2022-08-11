@@ -4,11 +4,11 @@ import mysql from 'serverless-mysql'
 // Cré un obj pour intéragir avec la DB
 export const db = mysql({
   config: {
-    host     : process.env.MYSQL_HOST,
-    database : process.env.MYSQL_DATABASE,
-    user     : process.env.MYSQL_USERNAME,
-    password : process.env.MYSQL_PASSWORD,
-    port: parseInt(process.env.MYSQL_PORT),
+    host     : "107.180.3.248",
+    database : "ges_mh_sheets",
+    user     : "GESM0NTR3AL",
+    password : "Francois1958",
+    port: parseInt(3306),
   }
 })
 
