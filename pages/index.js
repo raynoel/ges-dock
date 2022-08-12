@@ -2,6 +2,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';           // Bibliotheque pour afficher les messages d'erreurs de _SESSION
 import 'react-toastify/dist/ReactToastify.css';
+import Spinner from '@/components/Spinner.jsx';
 import SelectReport from '@/components/SelectReport.jsx';
 import Layout from '@/components/Layout.jsx'
 import Header from '@/components/Header.jsx'
@@ -15,30 +16,32 @@ import styles from '@/styles/Home.module.css'
 export default function HomePage({ allReports, last_id }) {
   const [ report, setReport ] = useState({})
   const [ reports, setReports ] = useState(allReports)
-  const [ loading, setLoading ] = useState(false)
   const [ active_id, setActive_id ] = useState(last_id + 1)
+  const [ loading, setLoading ] = useState(false)
 
 
   // Sélectionne un report de la DB
   const handleSelectReport = async( value ) => {
+    setLoading(true)
     if (typeof(value) === "undefined") {                                // case x clear()
       setReport({}); 
       setActive_id(last_id + 1)
       return 
     }
-    // const res = await fetch(`http://localhost:3000/api/reports/${value}`)     
-    // const reports = await res.json()
-    // if (res.ok) {
-    //   let report = reports[0]
-    //   const date = report.date.split('T')[0] || null;
-    //   const signature_date = report.signature_date.split('T')[0] || null;
-    //   report = {...report, date: date, signature_date: signature_date}
-    //   setReport(report)
-    //   setActive_id(report.id_report)
-    // } else {
-    //   setReport({}) 
-    //   setActive_id(last_id + 1)
-    // }
+    const res = await fetch(`http://localhost:3000/api/reports/${value}`)     
+    const reports = await res.json()
+    if (res.ok) {
+      let report = reports[0]
+      const date = report.date.split('T')[0] || null;
+      const signature_date = report.signature_date.split('T')[0] || null;
+      report = {...report, date: date, signature_date: signature_date}
+      setReport(report)
+      setActive_id(report.id_report)
+    } else {
+      setReport({}) 
+      setActive_id(last_id + 1)
+    }
+    setLoading(false)
   }
 
 
@@ -64,73 +67,74 @@ export default function HomePage({ allReports, last_id }) {
   // Ajouter un rapport
   const handleSubmitAddReport = async (e) => {
     e.preventDefault()
-  //   setLoading(true)
-  //   const res = await fetch('http://localhost:3000/api/reports/add', {
-  //     method: 'POST',
-  //     headers: { 'Content-type': 'application/json'},
-  //     body: JSON.stringify( report )
-  //   })
+    setLoading(true)
+    const res = await fetch('http://localhost:3000/api/reports/add', {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json'},
+      body: JSON.stringify( report )
+    })
 
-  //   const data = await res.json()
+    const data = await res.json()
 
-  //   if (res.ok) {
-  //     const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
-  //     const {data: lastest_id} = await axios.get(`http://localhost:3000/api/reports/last_id/`)  
-  //     setActive_id(lastest_id + 1)
-  //     setReports(allReports)
-  //     toast.success('Excellent !')
-  //     setReport({})
-  //   } else {
-  //     toast.error(data.message)
-  //   }
-  //   setLoading(false)
+    if (res.ok) {
+      const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
+      const {data: lastest_id} = await axios.get(`http://localhost:3000/api/reports/last_id/`)  
+      setActive_id(lastest_id + 1)
+      setReports(allReports)
+      toast.success('Excellent !')
+      setReport({})
+    } else {
+      toast.error(data.message)
+    }
+    setLoading(false)
   }
 
 
   // Modifier un rapport
   const handleSubmitModifyReport = async (e) => {
     e.preventDefault()
-  //   setLoading(true)
-  //   const res = await fetch(`http://localhost:3000/api/reports/edit/${report.id_report}`, {
-  //     method: 'POST',
-  //     headers: { 'Content-type': 'application/json'},
-  //     body: JSON.stringify( report )
-  //   })
+    setLoading(true)
+    const res = await fetch(`http://localhost:3000/api/reports/edit/${report.id_report}`, {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json'},
+      body: JSON.stringify( report )
+    })
 
-  //   const data = await res.json()
+    const data = await res.json()
 
-  //   if (res.ok) {
-  //     const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
-  //     setReports(allReports)
-  //     toast.success('Excellent !')
-  //   } else {
-  //     toast.error(data.message)
-  //   }
-  //   setLoading(false)
+    if (res.ok) {
+      const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
+      setReports(allReports)
+      toast.success('Excellent !')
+    } else {
+      toast.error(data.message)
+    }
+    setLoading(false)
   }
 
 
   // Supprime un rapport
   const handleDeleteReport = async() => {
-    //   setLoading(true)
-    //   const res = await fetch(`http://localhost:3000/api/reports/${report.id_report}`, {
-      //     method: 'DELETE',
-      //     headers: { 'Content-type': 'application/json'},
-      //     body: JSON.stringify( report.id_report )
-      //   })
-      
-      //   const data = await res.json()
-      
-      //   if (res.ok) {
-  //     setReport({})
-  //     const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
-  //     setReports(allReports)
-  //     toast.success("Excellent !")
-  //   } else {
-  //     toast.error(data.message)
-  //   }
-  //   setLoading(false)
+    setLoading(true)
+    const res = await fetch(`http://localhost:3000/api/reports/${report.id_report}`, {
+      method: 'DELETE',
+      headers: { 'Content-type': 'application/json'},
+      body: JSON.stringify( report.id_report )
+    })
+  
+    const data = await res.json()
+  
+    if (res.ok) {
+      setReport({})
+      const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
+      setReports(allReports)
+      toast.success("Excellent !")
+    } else {
+      toast.error(data.message)
+    }
+    setLoading(false)
   }
+
 
   return (
     <Layout title='GES: FRAIS ADDITIONNELS DE MANUTENTION / ADDITIONAL HANDLING CHARGES'>
@@ -138,7 +142,7 @@ export default function HomePage({ allReports, last_id }) {
       <div className={styles.container}>
         <form id="reportForm" onSubmit={handleSubmitAddReport}>
 
-
+          { loading && <Spinner /> }
 
           <div style={{ display: "flex", width: "100%", justifyContent: "space-between", marginBottom: "1rem" }}>
             <div style={{ width: "750px" }}>
@@ -217,9 +221,9 @@ export default function HomePage({ allReports, last_id }) {
 
 // Obtient la liste des reports 
 export async function getServerSideProps(context) {   
-  // const {data: allReports} = await axios.get(`http://localhost:3000/api/reports/`)  
+  const {data: allReports} = await axios.get(`http://localhost:3000/api/reports/`)  
   const {data: last_id} = await axios.get(`http://localhost:3000/api/reports/last_id/`) 
-  const allReports = [{id_report: 2, exhibitor_name: 'Gilead' }, {id_report: 3, exhibitor_name: 'Abbott'}] 
+  // const allReports = [{id_report: 2, exhibitor_name: 'Gilead' }, {id_report: 3, exhibitor_name: 'Abbott'}] 
   // const last_id = 78
   return {
     props: { 
