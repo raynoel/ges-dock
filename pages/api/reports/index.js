@@ -7,9 +7,9 @@ import { sql_query } from '@/config/db.js'
 export default async function handler(req, res) {
 
   const query_reports = `
-    SELECT id_report, exhibitor_name, date FROM tb_reports
+    SELECT id_report, exhibitor_name, signature_date FROM tb_reports
     WHERE active
-    ORDER BY date DESC, exhibitor_name
+    ORDER BY signature_date DESC, exhibitor_name
   `
 
   if (req.method === "GET") {

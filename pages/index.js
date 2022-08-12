@@ -20,23 +20,25 @@ export default function HomePage({ allReports, last_id }) {
   const [ loading, setLoading ] = useState(false)
 
 
-  // Sélectionne un report de la DB
+  // Sélectionne un rapport de la DB
   const handleSelectReport = async( value ) => {
     setLoading(true)
     if (typeof(value) === "undefined") {                                // case x clear()
       setReport({}); 
       setActive_id(last_id + 1)
+      setLoading(false)
       return 
     }
     const res = await fetch(`http://localhost:3000/api/reports/${value}`)     
     const reports = await res.json()
+
     if (res.ok) {
-      let report = reports[0]
-      const date = report.date.split('T')[0] || null;
-      const signature_date = report.signature_date.split('T')[0] || null;
-      report = {...report, date: date, signature_date: signature_date}
-      setReport(report)
-      setActive_id(report.id_report)
+      let selectedReport = reports[0]
+      const date = selectedReport?.date?.split('T')[0] || null;                              // converti la date MySQL en yyyy-mm-dd
+      const signature_date = selectedReport?.signature_date?.split('T')[0] || null;
+      selectedReport = {...selectedReport, date: date, signature_date: signature_date}
+      setReport(selectedReport)
+      setActive_id(selectedReport.id_report)
     } else {
       setReport({}) 
       setActive_id(last_id + 1)
@@ -68,6 +70,10 @@ export default function HomePage({ allReports, last_id }) {
   const handleSubmitAddReport = async (e) => {
     e.preventDefault()
     setLoading(true)
+    const todayJS = new Date();
+    const today_yyyymmdd = todayJS.toISOString().split('T')[0];
+    const signature_date = report.signature_date || today_yyyymmdd;
+    report = {...report, signature_date: signature_date}
     const res = await fetch('http://localhost:3000/api/reports/add', {
       method: 'POST',
       headers: { 'Content-type': 'application/json'},
@@ -149,7 +155,7 @@ export default function HomePage({ allReports, last_id }) {
               <SelectReport placeholder="Reports" id_report={report.id_report || null} reports={reports} handleSelectReport={handleSelectReport} /> 
             </div>
             <div>
-              {  report?.id_report && <button type="submit" disabled={loading} form="reportForm" onClick={handleSubmitModifyReport}>MODIFY</button>}
+              {  report?.id_report && <button type="submit" disabled={loading} form="modifyForm" onClick={handleSubmitModifyReport}>MODIFY</button>}
               { !report?.id_report && <button type='submit' disabled={loading} form="reportForm">ADD</button>}
               <button type='submit' disabled={loading} onClick={handleDeleteReport} form="reportForm">DELETE</button>
             </div>
@@ -221,10 +227,10 @@ export default function HomePage({ allReports, last_id }) {
 
 // Obtient la liste des reports 
 export async function getServerSideProps(context) {   
-  // const {data: allReports} = await axios.get(`http://localhost:3000/api/reports/`)  
-  // const {data: last_id} = await axios.get(`http://localhost:3000/api/reports/last_id/`) 
-  const allReports = [{id_report: 2, exhibitor_name: 'Gilead' }, {id_report: 3, exhibitor_name: 'Abbott'}] 
-  const last_id = 78
+  const {data: allReports} = await axios.get(`http://localhost:3000/api/reports/`)  
+  const {data: last_id} = await axios.get(`http://localhost:3000/api/reports/last_id/`) 
+  // const allReports = [{id_report: 2, exhibitor_name: 'Gilead' }, {id_report: 3, exhibitor_name: 'Abbott'}] 
+  // const last_id = 78
   return {
     props: { 
       allReports: allReports,
