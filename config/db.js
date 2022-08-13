@@ -4,11 +4,16 @@ import mysql from 'serverless-mysql'
 // Cré un obj pour intéragir avec la DB
 export const db = mysql({
   config: {
-    host     : process.env.MYSQL_HOST,
-    database : process.env.MYSQL_DATABASE,
-    user     : process.env.MYSQL_USERNAME,
-    password : process.env.MYSQL_PASSWORD,
-    port: parseInt(process.env.MYSQL_PORT),
+    // host     : process.env.MYSQL_HOST,
+    // database : process.env.MYSQL_DATABASE,
+    // user     : process.env.MYSQL_USERNAME,
+    // password : process.env.MYSQL_PASSWORD,
+    // port: parseInt(process.env.MYSQL_PORT),
+    host     : 'us-cdbr-east-06.cleardb.net',
+    database : 'heroku_09c53c78c2ce071',
+    user     : 'bfadef98b3c77f',
+    password : 'c3ffa78e',
+    port: parseInt(3306),
   }
 })
 
