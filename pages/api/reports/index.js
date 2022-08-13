@@ -11,12 +11,12 @@ export default async function handler(req, res) {
     WHERE active
     ORDER BY signature_date DESC, exhibitor_name
   `
+  
 
   if (req.method === "GET") {
     try {
-      const reports = await sql_query(query_reports)
-      return res.status(200).json(reports)
-
+      const allReports = await sql_query(query_reports)
+      return res.status(200).json(allReports)
     } catch (e) {
       res.status(500).json({ message: e.message })
     }

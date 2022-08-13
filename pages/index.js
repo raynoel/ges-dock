@@ -13,10 +13,10 @@ import Signature from '@/components/Signature.jsx';
 import styles from '@/styles/Home.module.css'
 
 
-export default function HomePage({ allReports, last_id }) {
+export default function HomePage({ allReports, next_id }) {
   const [ report, setReport ] = useState({})
   const [ reports, setReports ] = useState(allReports)
-  const [ active_id, setActive_id ] = useState(last_id + 1)
+  const [ active_id, setActive_id ] = useState(next_id)
   const [ loading, setLoading ] = useState(false)
 
 
@@ -25,7 +25,8 @@ export default function HomePage({ allReports, last_id }) {
     setLoading(true)
     if (typeof(value) === "undefined") {                                // case x clear()
       setReport({}); 
-      setActive_id(last_id + 1)
+      const { data: next_id } = await axios.get(`http://localhost:3000/api/reports/next_id`)
+      setActive_id(next_id)
       setLoading(false)
       return 
     }
@@ -41,7 +42,7 @@ export default function HomePage({ allReports, last_id }) {
       setActive_id(selectedReport.id_report)
     } else {
       setReport({}) 
-      setActive_id(last_id + 1)
+      setActive_id(next_id)
     }
     setLoading(false)
   }
@@ -84,9 +85,9 @@ export default function HomePage({ allReports, last_id }) {
 
     if (res.ok) {
       const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
-      const {data: lastest_id} = await axios.get(`http://localhost:3000/api/reports/last_id/`)  
-      setActive_id(lastest_id + 1)
+      const { data: next_id } = await axios.get(`http://localhost:3000/api/reports/next_id`)
       setReports(allReports)
+      setActive_id(next_id)
       toast.success('Excellent !')
       setReport({})
     } else {
@@ -228,13 +229,11 @@ export default function HomePage({ allReports, last_id }) {
 // Obtient la liste des reports 
 export async function getServerSideProps(context) {   
   const {data: allReports} = await axios.get(`http://localhost:3000/api/reports/`)  
-  const {data: last_id} = await axios.get(`http://localhost:3000/api/reports/last_id/`) 
-  // const allReports = [{id_report: 2, exhibitor_name: 'Gilead' }, {id_report: 3, exhibitor_name: 'Abbott'}] 
-  // const last_id = 78
+  const {data: next_id} = await axios.get(`http://localhost:3000/api/reports/next_id`)  
   return {
     props: { 
       allReports: allReports,
-      last_id: last_id,
+      next_id: next_id,
      }
   }
 }

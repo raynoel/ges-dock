@@ -6,15 +6,14 @@ import { sql_query } from '@/config/db.js'
 
 export default async function handler(req, res) {
 
-  const query_last_id = `
-    SELECT MAX( id_report ) AS last_id FROM tb_reports;
+  const query_next_id = `
+    SELECT auto_increment FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'tb_reports'
   `
 
   if (req.method === "GET") {
     try {
-      const last_id = await sql_query(query_last_id)
-      return res.status(200).json(last_id[0].last_id)
-
+      const next_id = await sql_query(query_next_id)
+      return res.status(200).json(next_id[0].auto_increment)
     } catch (e) {
       res.status(500).json({ message: e.message })
     }
