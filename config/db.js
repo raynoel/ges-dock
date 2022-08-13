@@ -9,10 +9,10 @@ export const db = mysql({
     // user     : process.env.MYSQL_USERNAME,
     // password : process.env.MYSQL_PASSWORD,
     // port: parseInt(process.env.MYSQL_PORT),
-    host     : '107.180.3.248',
-    user     : 'GESM0NTR3AL',
-    password : 'Francois1958',
-    database : 'ges_mh_sheets',
+    host     : 'us-cdbr-east-06.cleardb.net',
+    user     : 'bfadef98b3c77f',
+    password : 'c3ffa78e',
+    database : 'heroku_09c53c78c2ce071',
     port: parseInt(3306),
   }
 })
