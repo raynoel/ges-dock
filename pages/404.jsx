@@ -4,10 +4,11 @@ import Layout from "@/components/Layout.jsx"
 import { useEffect,useState } from 'react';
 
 export default function NotFoundPage() {
-  const [message, setMessage] = useState('jai faim')
+  const [message, setMessage] = useState('message initial')
   useEffect(() => {
     setMessage(process.env.NEXT_PUBLIC_MESSAGE)
   },[])
+  const message2 = process.env.NEXT_PUBLIC_MESSAGE;
 
   return (
     <Layout title='Page Not Found'>
@@ -16,6 +17,7 @@ export default function NotFoundPage() {
         <FaExclamationTriangle style={{ fontSize: "100px", color: "var(--bs-ges-danger)"}} /> 
         <h4>Sorry, there is nothing here</h4>
         <p>{message}</p>
+        <p>{message2}</p>
         <Link href='/'><a>Go Back Home</a></Link>
       </div>
 
