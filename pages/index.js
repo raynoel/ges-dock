@@ -25,12 +25,12 @@ export default function HomePage({ allReports, next_id }) {
     setLoading(true)
     if (typeof(value) === "undefined") {                                // case x clear()
       setReport({}); 
-      const { data: next_id } = await axios.get(`http://localhost:3000/api/reports/next_id`)
+      const { data: next_id } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/next_id`)
       setActive_id(next_id)
       setLoading(false)
       return 
     }
-    const res = await fetch(`http://localhost:3000/api/reports/${value}`)     
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/${value}`)     
     const reports = await res.json()
 
     if (res.ok) {
@@ -75,7 +75,7 @@ export default function HomePage({ allReports, next_id }) {
     const today_yyyymmdd = todayJS.toISOString().split('T')[0];
     const signature_date = report.signature_date || today_yyyymmdd;
     report = {...report, signature_date: signature_date}
-    const res = await fetch('http://localhost:3000/api/reports/add', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/add`, {
       method: 'POST',
       headers: { 'Content-type': 'application/json'},
       body: JSON.stringify( report )
@@ -84,11 +84,11 @@ export default function HomePage({ allReports, next_id }) {
     const data = await res.json()
 
     if (res.ok) {
-      const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
-      const { data: next_id } = await axios.get(`http://localhost:3000/api/reports/next_id`)
+      const { data: allReports } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/`)
+      const { data: next_id } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/next_id`)
       setReports(allReports)
       setActive_id(next_id)
-      toast.success('Excellent !')
+      toast.success('Success')
       setReport({})
     } else {
       toast.error(data.message)
@@ -101,7 +101,7 @@ export default function HomePage({ allReports, next_id }) {
   const handleSubmitModifyReport = async (e) => {
     e.preventDefault()
     setLoading(true)
-    const res = await fetch(`http://localhost:3000/api/reports/edit/${report.id_report}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/edit/${report.id_report}`, {
       method: 'POST',
       headers: { 'Content-type': 'application/json'},
       body: JSON.stringify( report )
@@ -110,9 +110,9 @@ export default function HomePage({ allReports, next_id }) {
     const data = await res.json()
 
     if (res.ok) {
-      const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
+      const { data: allReports } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/`)
       setReports(allReports)
-      toast.success('Excellent !')
+      toast.success('Success')
     } else {
       toast.error(data.message)
     }
@@ -123,7 +123,7 @@ export default function HomePage({ allReports, next_id }) {
   // Supprime un rapport
   const handleDeleteReport = async() => {
     setLoading(true)
-    const res = await fetch(`http://localhost:3000/api/reports/${report.id_report}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/${report.id_report}`, {
       method: 'DELETE',
       headers: { 'Content-type': 'application/json'},
       body: JSON.stringify( report.id_report )
@@ -133,9 +133,9 @@ export default function HomePage({ allReports, next_id }) {
   
     if (res.ok) {
       setReport({})
-      const { data: allReports } = await axios.get(`http://localhost:3000/api/reports/`)
+      const { data: allReports } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/`)
       setReports(allReports)
-      toast.success("Excellent !")
+      toast.success("Success")
     } else {
       toast.error(data.message)
     }
@@ -228,8 +228,8 @@ export default function HomePage({ allReports, next_id }) {
 
 // Obtient la liste des reports 
 export async function getServerSideProps(context) {   
-  const {data: allReports} = await axios.get(`http://localhost:3000/api/reports/`)  
-  const {data: next_id} = await axios.get(`http://localhost:3000/api/reports/next_id`)  
+  const {data: allReports} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports`)  
+  const {data: next_id} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/next_id`)  
   return {
     props: { 
       allReports: allReports,
