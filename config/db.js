@@ -1,18 +1,16 @@
 const mysql = require("serverless-mysql");
+const name = 'ray'
 
 
 // Cré un obj pour intéragir avec la DB
 const db = mysql({
   config: {
-    host     : process.env.NEXT_PUBLIC_MYSQL_HOST,
-    database : process.env.NEXT_PUBLIC_MYSQL_DATABASE,
-    user     : process.env.NEXT_PUBLIC_MYSQL_USERNAME,
-    password : process.env.NEXT_PUBLIC_MYSQL_PASSWORD,
-    port: parseInt(process.env.NEXT_PUBLIC_MYSQL_PORT),
-  }
-})
-
-
+    host:     process.env.MYSQL_HOST,
+    database: process.env.MYSQL_DATABASE,
+    user:     process.env.MYSQL_USERNAME,
+    password: process.env.MYSQL_PASSWORD,
+  },
+});
 
 
 // Fonction qui utilise la méthode db.query() pour intéragir avec la DB
