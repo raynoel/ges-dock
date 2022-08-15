@@ -13,10 +13,10 @@ import Signature from '@/components/Signature.jsx';
 import styles from '@/styles/Home.module.css'
 
 
-export default function HomePage({ allReports, next_id }) {
+export default function HomePage({ allReports, nextReport_id }) {
   const [ report, setReport ] = useState({})
   const [ reports, setReports ] = useState(allReports)
-  const [ active_id, setActive_id ] = useState(next_id)
+  const [ active_id, setActive_id ] = useState(nextReport_id)
   const [ loading, setLoading ] = useState(false)
 
 
@@ -25,8 +25,8 @@ export default function HomePage({ allReports, next_id }) {
     setLoading(true)
     if (typeof(value) === "undefined") {                                // case x clear()
       setReport({}); 
-      const { data: next_id } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/next_id`)
-      setActive_id(next_id)
+      const { data: nextReport_id } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/nextReport_id`)
+      setActive_id(nextReport_id)
       setLoading(false)
       return 
     }
@@ -42,7 +42,7 @@ export default function HomePage({ allReports, next_id }) {
       setActive_id(selectedReport.id_report)
     } else {
       setReport({}) 
-      setActive_id(next_id)
+      setActive_id(nextReport_id)
     }
     setLoading(false)
   }
@@ -85,9 +85,9 @@ export default function HomePage({ allReports, next_id }) {
 
     if (res.ok) {
       const { data: allReports } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/`)
-      const { data: next_id } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/next_id`)
+      const { data: nextReport_id } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/nextReport_id`)
       setReports(allReports)
-      setActive_id(next_id)
+      setActive_id(nextReport_id)
       toast.success('Success')
       setReport({})
     } else {
@@ -229,11 +229,11 @@ export default function HomePage({ allReports, next_id }) {
 // Obtient la liste des reports 
 export async function getServerSideProps(context) {   
   const {data: allReports} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports`)  
-  const {data: next_id} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/next_id`)  
+  const {data: nextReport_id} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/nextReport_id`)  
   return {
     props: { 
       allReports: allReports,
-      next_id: next_id,
+      nextReport_id: nextReport_id,
      }
   }
 }

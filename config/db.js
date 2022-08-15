@@ -1,5 +1,4 @@
 const mysql = require("serverless-mysql");
-const name = 'ray'
 
 
 // Cré un obj pour intéragir avec la DB
