@@ -121,7 +121,8 @@ export default function HomePage({ allReports, nextReport_id }) {
 
 
   // Supprime un rapport
-  const handleDeleteReport = async() => {
+  const handleDeleteReport = async (e) => {
+    e.preventDefault()
     setLoading(true)
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/${report.id_report}`, {
       method: 'DELETE',
